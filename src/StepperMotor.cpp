@@ -2,9 +2,11 @@
 
 #include "StepperMotor.h"
 
-StepperMotor::StepperMotor(uint8_t dir, uint8_t step, uint8_t limitSwitchPin, bool limitSwitchReversed = false, bool limitSwitchPullUp = false)
+StepperMotor::StepperMotor(uint8_t dir, uint8_t step, int maxSpeed = 200, int accelTime = 2, uint8_t limitSwitchPin, bool limitSwitchReversed = false, bool limitSwitchPullUp = true)
 {
 	stepper = AccelStepper(AccelStepper::DRIVER, dir, step);
+	stepper.setMaxSpeed(maxSpeed);
+	stepper.setAcceleration(maxSpeed / accelTime);	
 	limitSwitch = Button(limitSwitchPin, limitSwitchReversed, limitSwitchPullUp);
 }
 
@@ -13,36 +15,18 @@ StepperMotor::StepperMotor(uint8_t dir, uint8_t step, uint8_t limitSwitchPin, bo
  */
 void StepperMotor::setup()
 {
-	stepper.setMaxSpeed(200.0);
-	stepper.setAcceleration(100.0);
-	stepper.moveTo(-1000);
-	while (!limitSwitch.getValue())
-	{
-		stepper.run();
+	stepper.move(-10000);
+	while (limitSwitch.getValue() == HIGH) {
+		stepper1.run();
 	}
 	stepper.stop();
+	stepper.setCurrentPosition(stepper.currentPosition());
+	stepper.moveTo(10);
 }
 
-void StepperMotor::move(int speed)
+void StepperMotor::moveTo(int pos)
 {
-	if (speed > 0)
-	{
-		forward(speed);
-	}
-	if (speed < 0)
-	{
-		backward(-speed);
-	}
-}
-
-void StepperMotor::forward(int speed)
-{
-	
-}
-
-void StepperMotor::backward(int speed)
-{
-	
+	stepper.moveTo(pos);
 }
 
 void StepperMotor::loop()
