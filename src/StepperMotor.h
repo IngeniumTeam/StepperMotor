@@ -6,10 +6,13 @@
 class StepperMotor
 {
     public:
-        StepperMotor(uint8_t dir, uint8_t step, int maxSpeed = 200, int accelTime = 2, uint8_t limitSwitchPin, bool limitSwitchReversed = false, bool limitSwitchPullUp = true);
+        StepperMotor(int step, int dir, int maxSpeed = 200, int accelTime = 2);
+        StepperMotor(int step, int dir, int limitSwitchPin, bool limitSwitchReversed = false, bool limitSwitchPullUp = true, int maxSpeed = 200, int accelTime = 2);
+        // StepperMotor(int step, int dir, int limitSwitchPin, bool limitSwitchReversed = false, bool limitSwitchPullUp = true, int limitSwitchPin2, bool limitSwitchReversed2 = false, bool limitSwitchPullUp2 = true, int maxSpeed = 200, int accelTime = 2);
         void setup();
         void moveTo(int pos);
         void loop();
         AccelStepper stepper = AccelStepper(AccelStepper::DRIVER, 0, 0);
         Button limitSwitch = Button(0);
+        Button limitSwitch2 = Button(0);
 };
