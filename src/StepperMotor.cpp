@@ -32,12 +32,17 @@ void StepperMotor::setup()
 {
 	stepper.move(-10000);
 	while (limitSwitch.getValue() != HIGH) {
-		stepper.run();
+		stepper.setSpeed(-100);
+		stepper.runSpeed();
 	}
 	stepper.stop();
+	while (limitSwitch.getValue() != LOW) {
+		stepper.setSpeed(75);
+		stepper.runSpeed();
+	}
+	delay(10);
+	stepper.stop();
 	stepper.setCurrentPosition(stepper.currentPosition());
-	Serial.println("Stop");
-	// stepper.moveTo(10);
 }
 
 void StepperMotor::moveTo(int pos)
@@ -47,10 +52,14 @@ void StepperMotor::moveTo(int pos)
 
 void StepperMotor::loop()
 {
-	if (limitSwitch.getValue() + limitSwitch2.getValue() == LOW) {
+	// Serial.print(limitSwitch.getValue());
+	// Serial.print(" ");
+	// Serial.println(limitSwitch2.getValue());
+	if (limitSwitch.getValue() == LOW) {
+	// if (limitSwitch.getValue() + limitSwitch2.getValue() == LOW) {
 		stepper.run();
 	}
 	else {
-		//
+		stepper.stop();
 	}
 }
