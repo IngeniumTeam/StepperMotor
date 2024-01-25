@@ -1,0 +1,28 @@
+name: Release on Commit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Git
+      run: |
+        git config --global user.email "104694344+SimonPucheu@users.noreply.github.com"
+        git config --global user.name "Simon Pucheu"
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: 1.${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
