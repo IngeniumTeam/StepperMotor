@@ -49,6 +49,7 @@ void StepperMotor::setup()
 
 void StepperMotor::moveTo(int pos)
 {
+	Serial.println("move to");
 	stepper.moveTo(pos);
 	while (stepper.distanceToGo() != 0)
 	{
@@ -58,7 +59,7 @@ void StepperMotor::moveTo(int pos)
 
 void StepperMotor::loop()
 {
-	if (limitSwitch.getValue() + limitSwitch2.getValue() == LOW) {
+	if (limitSwitch.getValue() == LOW) {
 		stepper.run();
 	}
 	else {
