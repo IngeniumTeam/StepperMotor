@@ -49,7 +49,6 @@ void StepperMotor::setup()
 
 void StepperMotor::moveTo(int pos)
 {
-	Serial.println("move to");
 	stepper.moveTo(pos);
 	while (stepper.distanceToGo() != 0)
 	{
