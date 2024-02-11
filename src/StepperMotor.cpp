@@ -32,7 +32,6 @@ StepperMotor::StepperMotor(int step, int dir, int limitSwitchPin, bool limitSwit
  */
 void StepperMotor::setup()
 {
-	stepper.move(-10000);
 	while (limitSwitch.getValue() != HIGH) {
 		stepper.setSpeed(-100);
 		stepper.runSpeed();
