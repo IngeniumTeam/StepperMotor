@@ -62,5 +62,12 @@ void StepperMotor::loop()
 	}
 	else {
 		stepper.stop();
+		while (limitSwitch.getValue() != LOW) {
+			stepper.setSpeed(75);
+			stepper.runSpeed();
+		}
+		delay(15);
+		stepper.stop();
+		setup();
 	}
 }
